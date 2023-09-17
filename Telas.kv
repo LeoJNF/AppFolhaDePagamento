@@ -1,0 +1,268 @@
+TelaManager:
+    TelaLogin:
+    TelaInicial:
+    TelaFuncionarios:
+    TelaRelatorios:
+    TelaFinanceiro:
+    TelaConfiguracoes:
+
+
+<TelaLogin>:
+    name: 'TelaLogin'
+    id: 'Login'
+    MDFloatLayout:
+        Image:
+            source: 'images/logo1.png'
+            pos_hint: {'center_x': .5, 'center_y': .75}
+
+        MDTextField:
+            id: text_email
+            hint_text: 'Email'
+            size_hint: .7, .13
+            pos_hint: {'center_x': .5, 'center_y': .6}
+            icon_left: "gmail"
+        MDTextField:
+            id: text_senha
+            hint_text: 'Senha'
+            size_hint: .7, .13
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            password: True
+            icon_left: "key-variant"
+        MDIconButton:
+            icon: "eye-off"
+            pos_hint: {"center_y": .5}
+            pos_hint: {'center_x': .8, 'center_y': .5}
+            theme_text_color: "Hint"
+            on_release:
+                self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                text_senha.password = False if text_senha.password is True else True
+        MDRaisedButton:
+            md_bg_color: '#a5d4e8'
+            text: 'Login'
+            text_color: 'black'
+            size_hint: .7, .05
+            pos_hint:{'center_x': .5, 'center_y': .4}
+            on_release: if root.login(): app.root.current = 'TelaInicial'
+        MDTextButton:
+            custom_color: '#a5d4e8'
+            text: 'Recuperar senha'
+            pos_hint:{'center_x': .5, 'center_y': .33}
+            on_release: root.AbrirRecSenha()
+
+
+<EsqueciSenha>
+    orientation: 'vertical'
+    size_hint: .75, .5
+    pos_hint:{'center_x': .5, 'center_y': .4}
+
+    MDBoxLayout:
+        size_hint_y: .2
+        padding: [25,0,25,0]
+        md_bg_color: app.theme_cls.primary_color
+
+        MDLabel:
+            text:'Atualizar senha'
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+
+        MDIconButton:
+            icon: 'close'
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            on_release: root.FecharRecSenha()
+
+
+    MDFloatLayout:
+
+        MDTextField:
+            pos_hint:{'center_x': .5, 'center_y': .75}
+            size_hint_x: .9
+            hint_text: 'Código enviado para o email'
+        MDTextField:
+            pos_hint:{'center_x': .5, 'center_y': .55}
+            size_hint_x: .9
+            hint_text: 'Nova senha'
+        MDTextField:
+            pos_hint:{'center_x': .5, 'center_y': .35}
+            size_hint_x: .9
+            hint_text: 'Confirmação'
+        MDRaisedButton:
+            pos_hint:{'center_x': .5, 'center_y': .1}
+            size_hint_x: .9
+            text: 'Recuperar'
+
+
+
+<TelaInicial>:
+    name: 'TelaInicial'
+    MDFloatLayout:
+        MDTopAppBar:
+            md_bg_color: '#a5d4e8'
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            right_action_items: [['account', lambda x: root.login_config()]]
+            left_action_items: [['finance']]
+
+
+        MDGridLayout:
+            size_hint_y:.65
+            cols:2
+            padding:[dp(15),dp(15),dp(15),dp(35)]
+            spacing:dp(15)
+            ElementCard:
+                image:"images/personsearch.png"
+
+                text:"Funcionários"
+                on_release: app.root.current = 'Funcionarios'
+
+            ElementCard:
+                image:"images/file.png"
+                text:"Relatórios"
+                on_release: app.root.current = 'Relatorios'
+
+            ElementCard:
+                image:"images/currency.png"
+                text:"Financeiro"
+                on_release: app.root.current = 'Financeiro'
+
+            ElementCard:
+                image:"images/setting.png"
+                text:"Configurações"
+                on_release: app.root.current = 'Configuracoes'
+
+
+<ElementCard@MDCard>:
+    md_bg_color: '#a5d4e8'
+    padding:dp(10)
+    spacing:dp(10)
+    radius:dp(25)
+    ripple_behavior: True
+    image:''
+    text:""
+    items_count:""
+    subtext:''
+
+    orientation:'vertical'
+    Image:
+        source:root.image
+    MDBoxLayout:
+        orientation:'vertical'
+        MDLabel:
+            halign:"center"
+            text:root.text
+            font_size: "15sp"
+            font_name: "Poppins-Medium.ttf"
+        MDLabel:
+            halign:"center"
+            font_style:"Caption"
+            text:root.subtext
+        MDLabel:
+            halign:"center"
+            text:root.items_count
+
+<TelaFuncionarios>
+    name: 'Funcionarios'
+    MDFloatLayout:
+        MDTopAppBar:
+            md_bg_color: '#a5d4e8'
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            padding: '53dp', '53dp'
+            text: 'Pesquisar Funcionário'
+            pos_hint:{'center_x': .53, 'center_y': .83}
+        MDTextField:
+            helper_text: 'Informe o CPF'
+            helper_text_mode: 'persistent'
+            mode: 'round'
+            right_icon:
+            size_hint_x: .7
+            pos_hint: {'center_x': .5, 'center_y': .77}
+        MDLabel:
+            padding: '53dp', '53dp'
+            text: 'Nome:'
+            pos_hint:{'center_y': .63}
+        MDLabel:
+            padding: '53dp', '53dp'
+            text: 'Empresa:'
+            pos_hint:{'center_y': .53}
+        MDLabel:
+            padding: '53dp', '53dp'
+            text: 'Cargo:'
+            pos_hint:{'center_y': .43}
+        MDLabel:
+            padding: '53dp', '53dp'
+            text: 'Salário:'
+            pos_hint:{'center_y': .33}
+
+        MDRaisedButton:
+            md_bg_color: '#a5d4e8'
+            text_color: 'black'
+            text: 'Emitir Folha'
+            pos_hint:{'center_x':.5, 'center_y': .10}
+        MDRaisedButton:
+            md_bg_color: '#a5d4e8'
+            text_color: 'black'
+            text: 'Consultar Folha'
+            pos_hint:{'center_x':.5, 'center_y': .18}
+
+
+
+<TelaRelatorios>
+    name: 'Relatorios'
+    MDFloatLayout:
+        MDTopAppBar:
+            md_bg_color: '#a5d4e8'
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Relatórios"
+            halign: "center"
+
+
+
+<TelaFinanceiro>
+    name: 'Financeiro'
+    MDFloatLayout:
+        MDTopAppBar:
+            md_bg_color: '#a5d4e8'
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Financeiro"
+            halign: "center"
+
+
+<TelaConfiguracoes>
+    name: 'Configuracoes'
+    MDFloatLayout:
+
+        MDTopAppBar:
+            md_bg_color: '#a5d4e8'
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            right_action_items: [['account', lambda x: root.login_config()]]
+            left_action_items: [['chevron-left', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Configuração"
+            halign: "center"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
